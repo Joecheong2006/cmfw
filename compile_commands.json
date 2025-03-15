@@ -1,0 +1,19 @@
+[
+  { 
+    "arguments": [
+      "gcc",
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-Ilib/glad/include",
+      "-Ilib/stb_image",
+      "-Ilib/sndfile/include",
+      "-Ilib/openal/",
+      "-Ilib",
+      "-Isrc",
+      "-DDEBUG"
+    ],
+    "directory": "C:/Users/joech/project/game_makerc",
+    "file": "src/main.c"
+  }
+]
