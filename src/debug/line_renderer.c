@@ -4,14 +4,16 @@
 #include "camera.h"
 #include "game_object_system.h"
 #include <glad/glad.h>
+#include "core/log.h"
 
 static vertex_array vao;
 static u32 shader;
 
 void init_debug_line_renderer() {
+    LOG_INFO("%s\n", CMFW_ROOT);
     glLineWidth(1);
     GLC(init_vertex_array(&vao));
-    shader_program program = parse_shader("res/shaders/line.shader");
+    shader_program program = parse_shader(CMFW_ROOT "res/shaders/line.shader");
     GLC(shader = create_shader(program.vertex, program.fragment));
     shader_program_free(&program);
 }

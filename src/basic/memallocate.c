@@ -1,6 +1,5 @@
 #include "memallocate.h"
 
-__attribute__((unused))
 static int allocation_count = 0;
 
 void* memallocate(size_t _Size) { ++allocation_count; return malloc(_Size); }

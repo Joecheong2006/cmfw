@@ -1,5 +1,6 @@
 #ifndef _ENTRY_POINT_H_
 #define _ENTRY_POINT_H_
+#include "core/log.h"
 
 extern application_setup create_application();
 

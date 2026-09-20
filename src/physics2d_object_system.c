@@ -2,6 +2,7 @@
 #include "core/assert.h"
 #include "physics2d/collider2d.h"
 #include "basic/vector.h"
+#include "basic/memallocate.h"
 
 static struct physics2d_object_system {
 	vector(rigid2d*) objects;
@@ -137,11 +138,11 @@ static void resolve_friction(f32 in_j, f32 inverse_count, vec2 out_impulse, coll
 }
 
 static void resolve_collision(i32* collision_point_index, i32 collision_count, collision2d_info* info, rigid2d* r1, rigid2d* r2) {
-	vec2 rimpulse[info->points_count];
-	vec2 fimpulse[info->points_count];
-	f32 Js[info->points_count];
-	vec2 c1[info->points_count];
-	vec2 c2[info->points_count];
+	vec2 *rimpulse = MALLOC(info->points_count * sizeof(vec2));
+	vec2 *fimpulse = MALLOC(info->points_count * sizeof(vec2));
+	f32 *Js = MALLOC(info->points_count * sizeof(f32));
+	vec2 *c1 = MALLOC(info->points_count * sizeof(vec2));
+	vec2 *c2 = MALLOC(info->points_count * sizeof(vec2));
 
 	f32 inverse_count = 1.0 / collision_count;
 	// f32 inverse_count = 1.0 / 1;
@@ -170,6 +171,12 @@ static void resolve_collision(i32* collision_point_index, i32 collision_count, c
 	    glm_vec2_muladds(fimpulse[i], r1->inverse_mass, r1->v);
 	    glm_vec2_mulsubs(fimpulse[i], r2->inverse_mass, r2->v);
 	}
+
+    FREE(rimpulse);
+    FREE(fimpulse);
+    FREE(Js);
+    FREE(c1);
+    FREE(c2);
 }
 
 static void update_collision() {
@@ -192,7 +199,7 @@ static void update_collision() {
 			}
 
 			collision2d_info info = body1->collider->collide(body1->collider, body2->collider);
-			i32 index[info.points_count], count = 0;
+			i32 *index = MALLOC(info.points_count * sizeof(i32)), count = 0;
 			for (int i = 0; i < info.points_count; ++i) {
 				if (info.collision_points[i].depth > 0) {
 					index[count++] = i;
@@ -202,6 +209,7 @@ static void update_collision() {
 			if (count > 0) {
 				resolve_collision(index, count, &info, body1, body2);
 			}
+            FREE(index);
 		}
 	}
 }

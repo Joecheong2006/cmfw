@@ -12,7 +12,7 @@ string parse_shader_type(const char* file_path, const char* type)
 
     FILE* file = fopen(file_path, "r");
     if (!file) {
-        LOG_ERROR(" %s", "can't open file\n");
+        LOG_ERROR(" can't open file: %s\n", file_path);
         return ret;
     }
 

@@ -2,13 +2,29 @@
 #include <math.h>
 #include "core/defines.h"
 
+#if defined(_MSC_VER)
+    // MSVC setup macro
+    #pragma section(".CRT$XCU", read)
+    #define INITIALIZER(f) \
+        static void f(void); \
+        __declspec(allocate(".CRT$XCU")) void (*f##_)(void) = f; \
+        static void f(void)
+#elif defined(__GNUC__) || defined(__clang__)
+    // GCC/Clang setup macro (Priority 110)
+    #define INITIALIZER(f) \
+        static void f(void) __attribute__((constructor(110))); \
+        static void f(void)
+#else
+    #define INITIALIZER(f) \
+        #error "Unsupported compiler"
+#endif
+
 #define PI 3.14159265359
 #define CIRCLE_POINT_COUNT 36
 
 static vec2 circle_points[CIRCLE_POINT_COUNT];
 
-__attribute__((constructor(110)))
-static void init_circle_points() {
+INITIALIZER(init_circle_points) {
     f32 per_a = 360.0 / CIRCLE_POINT_COUNT;
     for (int i = 0; i < CIRCLE_POINT_COUNT; i++) {
         f32 a = (i + 1) * per_a;

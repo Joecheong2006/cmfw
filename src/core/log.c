@@ -28,7 +28,7 @@ void log_msg(log_level level, const char* msg, ...) {
 	char out_msg[1024];
 	memset(out_msg, 0, sizeof(out_msg));
 
-	__builtin_va_list arg_ptr;
+	va_list arg_ptr;
 	va_start(arg_ptr, msg);
 	vsnprintf(out_msg, sizeof(out_msg), msg, arg_ptr);
 	va_end(arg_ptr);

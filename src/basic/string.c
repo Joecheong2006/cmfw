@@ -11,10 +11,9 @@ string _make_string(cstring ctx)
 
 string _make_stringn(cstring ctx, u64 len) {
     string result = make_vector();
-    char str[len + 1];
-    memcpy(str, ctx, len);
-    str[len] = 0;
-    string_push(result, str);
+    vector_resize(result, len + 1);
+    memcpy(result, ctx, len);
+    result[len] = '\n';
     return result;
 }
 

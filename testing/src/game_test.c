@@ -465,6 +465,7 @@ static i32 game_test_on_initialize(void* self) {
     Game* game = self;
     setup_platform(&game->plat_state);
 
+    LOG_INFO("%s\n", PROJECT_ROOT);
     LOG_INFO("%s\n", "hello world!");
     LOG_WARN("%s\n", "hello world!");
     LOG_DEBUG("%s\n", "hello world!");
@@ -472,7 +473,7 @@ static i32 game_test_on_initialize(void* self) {
     LOG_ERROR("%s\n", "hello world!");
     LOG_FATAL("%s\n", "hello world!");
     
-    trace_info ti = { .file_name = "tracing-init.json", };
+    trace_info ti = { .file_name = PROJECT_ROOT "tracing-init.json", };
     setup_trace_info(&ti);
 
     BEGIN_SCOPE_SESSION();
@@ -500,7 +501,7 @@ static i32 game_test_on_initialize(void* self) {
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     END_SCOPE_SESSION(ti, "glfw make context");
 
-    glfwSetInputMode(game->win_state.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    // glfwSetInputMode(game->win_state.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     printf("Opengl Version %s\n", glGetString(GL_VERSION));
 
@@ -571,7 +572,7 @@ static i32 game_test_on_initialize(void* self) {
     {
         BEGIN_SCOPE_SESSION();
         game->sources[0] = create_audio_source(pitch, gain, (vec3){0, 0, 0}, (vec3){0, 0, 0}, 0);
-        const char* audio_file_path = "assets/audio/minecraft1.mp3";
+        const char* audio_file_path = PROJECT_ROOT "assets/audio/minecraft1.mp3";
         game->buffers[0] = gen_sound_buffer(audio_file_path);
         if (!game->buffers[0]) {
             LOG_WARN("load %s failed\n", audio_file_path);
@@ -586,7 +587,7 @@ static i32 game_test_on_initialize(void* self) {
     {
         BEGIN_SCOPE_SESSION();
         game->sources[1] = create_audio_source(pitch, gain, (vec3){0, 0, 0}, (vec3){0, 0, 0}, 0);
-        const char* audio_file_path = "assets/audio/yippee.mp3";
+        const char* audio_file_path = PROJECT_ROOT "assets/audio/yippee.mp3";
         game->buffers[1] = gen_sound_buffer(audio_file_path);
         if (!game->buffers[1]) {
             LOG_WARN("load %s failed\n", audio_file_path);
@@ -600,7 +601,7 @@ static i32 game_test_on_initialize(void* self) {
     }
 
     BEGIN_SCOPE_SESSION();
-    if (init_texture(&game->sp_obj.sp_tex.tex, "assets/Sprout-Lands/Characters/Basic-Charakter.png", TextureFilterNearest) != ErrorNone) {
+    if (init_texture(&game->sp_obj.sp_tex.tex, PROJECT_ROOT "assets/Sprout-Lands/Characters/Basic-Charakter.png", TextureFilterNearest) != ErrorNone) {
         return 0;
     }
     glm_vec2_copy((vec2){48.0 / game->sp_obj.sp_tex.tex.width, 48.0 / game->sp_obj.sp_tex.tex.height}, game->sp_obj.sp_tex.per_sprite);
@@ -649,7 +650,7 @@ static void game_test_on_update(void* self) {
 
     platform_sleep(6); // TODO: replace this code by dynamic fps control
 
-    static transform p1 = (transform) {
+    static transform p1 = {
         .position = {0, 2, 0},
         .scale = {2, 2, 1},
         .parent = NULL,

@@ -28,7 +28,7 @@ void init_sprite_instance() {
     };
     GLC(init_index_buffer(&sprite_instance.ibo, 6, GL_STATIC_DRAW));
 
-    shader_program shader = parse_shader("res/shaders/sprite.shader");
+    shader_program shader = parse_shader(CMFW_ROOT "res/shaders/sprite.shader");
     GLC(sprite_instance.shader = create_shader(shader.vertex, shader.fragment));
     shader_program_free(&shader);
 

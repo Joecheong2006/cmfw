@@ -1,5 +1,10 @@
 #include "trace_info.h"
-#include <unistd.h>
+#if defined(_WIN32) || defined(_WIN64)
+    #include <process.h>
+    #define getpid _getpid 
+#else
+    #include <unistd.h>
+#endif
 #include <sys/types.h>
 #include <stdio.h>
 

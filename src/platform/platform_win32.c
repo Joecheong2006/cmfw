@@ -5,6 +5,7 @@
 #include "core/assert.h"
 #include "core/log.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
 #include <mmsystem.h>
@@ -80,6 +81,7 @@ void platform_console_log(const char* msg, ConsoleTextColor color) {
 	ASSERT_MSG(color <= ConsoleTextColorCyan && color >= ConsoleTextColorWhite, "invalid console text color");
     HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(handle, console_color_map[color]);
+    printf("%s", msg);
 #if defined(_MSC_VER)
     OutputDebugString(msg);
 #else

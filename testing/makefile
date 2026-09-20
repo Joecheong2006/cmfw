@@ -2,7 +2,7 @@ CC = gcc
 # CFLAGS = -std=c11 -Wall -Wextra -g3
 
 DLL = ../lib/glfw/glfw3.dll ../lib/openal/router/Win64/OpenAL32.dll ../lib/sndfile/sndfile.dll ../bin/cmfw.dll
-LIB_WIN = -L../bin/ -lcmfw ../lib/glfw/libglfw3dll.a  -LC:\VulkanRT-1.3.290.0-Components\x64 -lvulkan-1
+LIB_WIN = -L../bin/ -lcmfw ../lib/glfw/libglfw3dll.a
 LIB_LIN = ../bin/cmfw.so -lglfw -lm -lvulkan
 
 SOURCE = src src/** src/**/**
