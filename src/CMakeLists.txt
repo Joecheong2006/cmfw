@@ -74,8 +74,7 @@ endif()
 # Conditional CGLM Application
 find_package(cglm QUIET)
 if(cglm_FOUND)
-    # vcpkg automatically creates targets like cglm or cglm::cglm
-    target_link_libraries(CMFW_LIB PUBLIC cglm)
+    target_link_libraries(CMFW_LIB PUBLIC cglm::cglm)
 else()
     if(NOT PkgConfig_FOUND)
         find_package(PkgConfig REQUIRED)
